@@ -25,6 +25,7 @@
         "jquery": "^3.7.1",
         "popper.js": "^1.16.1",
         "vform": "^2.1.2",
-        "vue-template-compiler": "^2.7.16"
+        "vue-template-compiler": "^2.7.16",
+        "vuex": "^4.0.2"
     }
 }

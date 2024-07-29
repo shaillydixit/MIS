@@ -10,6 +10,8 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
+                        <button @click="testAction" class="btn btn-info">Test</button>
+                        {{test}}
                         <table class="table table-hover text-center">
                             <thead>
                                 <tr>
@@ -97,7 +99,6 @@
 
             return {
                 editMode: false,
-                departments: {},
                 departmentData: new Form({
                     id: '',
                     name: '',
@@ -110,12 +111,7 @@
             }
         },
         methods: {
-            getDepartments() {
-                axios.get(`${window.url}api/get-departments`).then((response) => {
-                    console.log(response.data)
-                    this.departments = response.data
-                })
-            },
+
             createDepartment() {
                 this.editMode = false,
                     this.departmentData.name = this.departmentData.director_id = '';
@@ -126,11 +122,7 @@
             },
             storeDepartment() {
 
-                 this.departmentData.post(window.url + 'api/store-department')
-                    .then((response) => {
-                        this.getDepartments();
-                        $('#departmentModal').modal('hide');
-                    })
+                 this.$store.dispatch('storeDepartment', this.departmentData)
             },
             editDepartment(department) {
                 
@@ -141,24 +133,25 @@
                 $('#departmentModal').modal('show');
             },
             updateDepartment() {
-                this.departmentData.post(window.url + 'api/update-department/' + this.departmentData.id)
-                    .then((response) => {
-                        this.getDepartments();
-                        $('#departmentModal').modal('hide');
-                    })
+              this.$store.dispatch('updateDepartment', this.departmentData)
             },
             deleteDepartment(department) {
-                if (confirm('Are you sure you want to delete department')) {
-                    axios.post(window.url + 'api/delete-department/' + department.id)
-                        .then((response) => {
-                            this.getDepartments();
-                        })
-                }
+               this.$store.dispatch('deleteDepartment', department)
+            },
+            testAction()
+            {
+                this.$store.dispatch('testAction');         
             }
 
         },
         mounted() {
-            this.getDepartments();
+            this.$store.dispatch('getDepartments')
+            
+        },
+        computed:{
+            departments(){
+                return this.$store.getters.departments
+            }
         }
     }
 

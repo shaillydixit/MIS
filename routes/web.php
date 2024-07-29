@@ -5,6 +5,8 @@ use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
+
+Route::middleware(['auth'])->group(function () {
 Route::get('/', [DashboardController::class, 'dashboard']);
 Route::get('department/index', [DepartmentController::class, 'index'])->name('department.index');
 Route::get('department/create', [DepartmentController::class, 'create'])->name('department.create');
@@ -14,3 +16,5 @@ Route::post('department/update/{id}', [DepartmentController::class, 'update'])->
 Route::post('department/delete/{id}', [DepartmentController::class, 'delete'])->name('department.delete');
 
 Route::get('users/index', [UserController::class, 'index'])->name('user.index');
+
+});
